@@ -1,10 +1,10 @@
 from uuid import uuid4
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, DateTime
+from sqlalchemy import Column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from base import Base
-from timestamp_mixin import TimestampMixin
+from models.timestamp_mixin import TimestampMixin
+from models.base import Base
 
 
 class User(Base, TimestampMixin):

@@ -1,18 +1,36 @@
 from logging.config import fileConfig
-
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
 from alembic import context
-
 from config.config import settings
+from models.base import Base
+from pathlib import Path
+import importlib
+import sys
+import os
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
+
+# Add the project root to Python path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# notes: this line below imports all models
+excluded = {"__init__", "base", "timestamp_mixin"}
+
+model_files = Path(__file__).parent.parent.glob("models/*.py")
+
+for file in model_files:
+    if file.stem not in excluded:
+        importlib.import_module(f"models.{file.stem}")
+
 config = context.config
 
 db_url = settings.DATABASE_URL
 if db_url:
+    # Convert async URL to sync URL for Alembic
+    if db_url.startswith("postgresql+asyncpg://"):
+        db_url = db_url.replace("postgresql+asyncpg://", "postgresql://")
     config.set_main_option("sqlalchemy.url", db_url)
 
 # Interpret the config file for Python logging.
@@ -24,7 +42,8 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+# target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

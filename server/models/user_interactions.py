@@ -1,12 +1,12 @@
 from sqlalchemy import Enum, Text, Interval
 from sqlalchemy import Column, DateTime, ARRAY, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID
-from base import Base
 from uuid import uuid4
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from enums.interaction_types import InteractionType
-from timestamp_mixin import TimestampMixin
+from models.timestamp_mixin import TimestampMixin
+from models.base import Base
 
 
 class UserInteraction(Base, TimestampMixin):
