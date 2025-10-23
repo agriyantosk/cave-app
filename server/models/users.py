@@ -14,3 +14,4 @@ class User(Base, TimestampMixin):
 
     user_interactions = relationship(
         "UserInteraction", back_populates="user", cascade="all, delete")
+    devices = relationship("Device", back_populates="user")
