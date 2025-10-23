@@ -7,12 +7,12 @@ class UserBase(BaseModel):
     id: UUID
     created_at: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }
 
 
 class UserCreate(BaseModel):
-    # You might not need to create a user directly yet
     pass
 
 
