@@ -1,6 +1,5 @@
 from uuid import UUID
 from datetime import datetime
-from sqlalchemy import DateTime
 from pydantic import BaseModel
 
 
@@ -16,7 +15,7 @@ class DeviceBase(BaseModel):
 
 
 class DeviceCreate(BaseModel):
-    pass
+    user_id: UUID
 
 
 class DeviceResponse(DeviceBase):

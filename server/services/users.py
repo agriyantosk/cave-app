@@ -10,3 +10,7 @@ async def create_user(db: AsyncSession, user_data: UserCreate):
     await db.commit()
     await db.refresh(user)
     return success_response(UserResponse.model_validate(user), "User created successfully", 201)
+
+
+async def get_user_by_id(db: AsyncSession, user_id: str):
+    return await db.get(User, user_id)
